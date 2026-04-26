@@ -1,11 +1,9 @@
 /* =============================================
-   TERA INSTALL — script.js
+   TERA INSTALL — tera-1/script.js
    ============================================= */
 
-// ---- ANO DINÂMICO NO FOOTER ----
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ---- MENU HAMBURGER ----
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
 
@@ -15,7 +13,6 @@ hamburger.addEventListener('click', () => {
   hamburger.setAttribute('aria-expanded', isOpen);
 });
 
-// Fecha menu ao clicar em link
 nav.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => {
     nav.classList.remove('open');
@@ -24,7 +21,6 @@ nav.querySelectorAll('a').forEach(link => {
   });
 });
 
-// Fecha menu ao clicar fora
 document.addEventListener('click', e => {
   if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
     nav.classList.remove('open');
@@ -33,7 +29,6 @@ document.addEventListener('click', e => {
   }
 });
 
-// ---- HEADER SCROLL SHADOW ----
 const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
   header.style.boxShadow = window.scrollY > 10
@@ -41,11 +36,7 @@ window.addEventListener('scroll', () => {
     : '0 2px 12px rgba(0,0,0,.08)';
 }, { passive: true });
 
-// ---- ANIMAÇÃO DE ENTRADA (Intersection Observer) ----
-const animTargets = document.querySelectorAll(
-  '.card, .diferencial, .testimonial, .step, .faq__item, .sobre__card, .client-logo'
-);
-
+const animTargets = document.querySelectorAll('.card, .diferencial, .step, .faq__item, .sobre__card, .client-logo');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -63,8 +54,8 @@ animTargets.forEach(el => {
   observer.observe(el);
 });
 
-// ---- BOTÃO FLUTUANTE: esconde no topo (desktop) ----
 const floatBtn = document.querySelector('.whatsapp-float');
+floatBtn.style.transition = 'opacity .3s ease, transform .25s ease, box-shadow .25s ease';
 window.addEventListener('scroll', () => {
   if (window.innerWidth >= 768) {
     floatBtn.style.opacity = window.scrollY > 300 ? '1' : '0';
@@ -74,13 +65,10 @@ window.addEventListener('scroll', () => {
     floatBtn.style.pointerEvents = 'auto';
   }
 }, { passive: true });
-
-// Inicializa estado do botão flutuante no desktop
 if (window.innerWidth >= 768) {
   floatBtn.style.opacity = '0';
   floatBtn.style.pointerEvents = 'none';
 }
-floatBtn.style.transition = 'opacity .3s ease, transform .25s ease, box-shadow .25s ease';
 
 // ---- CARROSSEL ----
 (function () {
@@ -98,11 +86,11 @@ floatBtn.style.transition = 'opacity .3s ease, transform .25s ease, box-shadow .
     return 3;
   }
 
-  slides.forEach((_, i) => {
+  slides.forEach(function(_, i) {
     const dot = document.createElement('button');
     dot.className = 'carousel__dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', `Slide ${i + 1}`);
-    dot.addEventListener('click', () => goTo(i));
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.addEventListener('click', function() { goTo(i); });
     dotsWrap.appendChild(dot);
   });
 
@@ -112,25 +100,30 @@ floatBtn.style.transition = 'opacity .3s ease, transform .25s ease, box-shadow .
     const visible = getSlidesVisible();
     current = Math.max(0, Math.min(index, total - visible));
     const slideW = slides[0].getBoundingClientRect().width;
-    track.style.transform = `translateX(-${slideW * current}px)`;
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    track.style.transform = 'translateX(-' + (slideW * current) + 'px)';
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
   }
 
-  btnPrev.addEventListener('click', () => goTo(current - 1));
-  btnNext.addEventListener('click', () => goTo(current + 1));
+  btnPrev.addEventListener('click', function() { goTo(current - 1); });
+  btnNext.addEventListener('click', function() { goTo(current + 1); });
 
-  let timer = setInterval(() => goTo(current + 1 > total - getSlidesVisible() ? 0 : current + 1), 4000);
-  track.parentElement.addEventListener('mouseenter', () => clearInterval(timer));
-  track.parentElement.addEventListener('mouseleave', () => {
-    timer = setInterval(() => goTo(current + 1 > total - getSlidesVisible() ? 0 : current + 1), 4000);
+  let timer = setInterval(function() {
+    goTo(current + 1 > total - getSlidesVisible() ? 0 : current + 1);
+  }, 4000);
+
+  track.parentElement.addEventListener('mouseenter', function() { clearInterval(timer); });
+  track.parentElement.addEventListener('mouseleave', function() {
+    timer = setInterval(function() {
+      goTo(current + 1 > total - getSlidesVisible() ? 0 : current + 1);
+    }, 4000);
   });
 
   let startX = 0;
-  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend', e => {
+  track.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', function(e) {
     const diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
   });
 
-  window.addEventListener('resize', () => { current = 0; goTo(0); });
+  window.addEventListener('resize', function() { current = 0; goTo(0); });
 })();
