@@ -61,3 +61,55 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 if (window.innerWidth >= 768) { floatBtn.style.opacity = '0'; floatBtn.style.pointerEvents = 'none'; }
+
+// ---- CARROSSEL ----
+(function () {
+  const track    = document.getElementById('carouselTrack');
+  const dotsWrap = document.getElementById('carouselDots');
+  const btnPrev  = document.querySelector('.carousel__btn--prev');
+  const btnNext  = document.querySelector('.carousel__btn--next');
+  const slides   = track.querySelectorAll('.carousel__slide');
+  const total    = slides.length;
+  let current    = 0;
+
+  function getSlidesVisible() {
+    if (window.innerWidth < 768)  return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 3;
+  }
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'carousel__dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Slide ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+
+  const dots = dotsWrap.querySelectorAll('.carousel__dot');
+
+  function goTo(index) {
+    const visible = getSlidesVisible();
+    current = Math.max(0, Math.min(index, total - visible));
+    track.style.transform = `translateX(-${(100 / visible) * current}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+
+  let timer = setInterval(() => goTo(current + 1 > total - getSlidesVisible() ? 0 : current + 1), 4000);
+  track.parentElement.addEventListener('mouseenter', () => clearInterval(timer));
+  track.parentElement.addEventListener('mouseleave', () => {
+    timer = setInterval(() => goTo(current + 1 > total - getSlidesVisible() ? 0 : current + 1), 4000);
+  });
+
+  let startX = 0;
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+  });
+
+  window.addEventListener('resize', () => goTo(current));
+})();
