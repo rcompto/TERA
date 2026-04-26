@@ -64,20 +64,19 @@ if (window.innerWidth >= 768) { floatBtn.style.opacity = '0'; floatBtn.style.poi
 
 // ---- CARROSSEL ----
 (function () {
-  const track     = document.getElementById('carouselTrack');
-  const dotsWrap  = document.getElementById('carouselDots');
-  const btnPrev   = document.querySelector('.carousel__btn--prev');
-  const btnNext   = document.querySelector('.carousel__btn--next');
-  const slides    = track.querySelectorAll('.carousel__slide');
+  const track    = document.getElementById('carouselTrack');
+  const dotsWrap = document.getElementById('carouselDots');
+  const btnPrev  = document.querySelector('.carousel__btn--prev');
+  const btnNext  = document.querySelector('.carousel__btn--next');
+  const slides   = track.querySelectorAll('.carousel__slide');
+  const total    = slides.length;
+  let current    = 0;
 
   function getSlidesVisible() {
     if (window.innerWidth < 768)  return 1;
     if (window.innerWidth < 1024) return 2;
     return 3;
   }
-
-  let current = 0;
-  const total = slides.length;
 
   // Cria dots
   slides.forEach((_, i) => {
@@ -87,15 +86,15 @@ if (window.innerWidth >= 768) { floatBtn.style.opacity = '0'; floatBtn.style.poi
     dot.addEventListener('click', () => goTo(i));
     dotsWrap.appendChild(dot);
   });
-
   const dots = dotsWrap.querySelectorAll('.carousel__dot');
 
   function goTo(index) {
     const visible = getSlidesVisible();
     const max = total - visible;
     current = Math.max(0, Math.min(index, max));
-    const pct = (100 / visible) * current;
-    track.style.transform = `translateX(-${pct}%)`;
+    // usa largura real do slide em px — correto em qualquer tela
+    const slideW = slides[0].getBoundingClientRect().width;
+    track.style.transform = `translateX(-${slideW * current}px)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
@@ -117,5 +116,6 @@ if (window.innerWidth >= 768) { floatBtn.style.opacity = '0'; floatBtn.style.poi
     if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
   });
 
-  window.addEventListener('resize', () => goTo(current));
+  // Recalcula ao redimensionar
+  window.addEventListener('resize', () => { current = 0; goTo(0); });
 })();

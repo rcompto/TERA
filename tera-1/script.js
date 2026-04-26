@@ -111,7 +111,8 @@ floatBtn.style.transition = 'opacity .3s ease, transform .25s ease, box-shadow .
   function goTo(index) {
     const visible = getSlidesVisible();
     current = Math.max(0, Math.min(index, total - visible));
-    track.style.transform = `translateX(-${(100 / visible) * current}%)`;
+    const slideW = slides[0].getBoundingClientRect().width;
+    track.style.transform = `translateX(-${slideW * current}px)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
@@ -131,5 +132,5 @@ floatBtn.style.transition = 'opacity .3s ease, transform .25s ease, box-shadow .
     if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
   });
 
-  window.addEventListener('resize', () => goTo(current));
+  window.addEventListener('resize', () => { current = 0; goTo(0); });
 })();
