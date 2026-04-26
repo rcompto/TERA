@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TERA INSTALL — Escolha seu Layout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #080f1e;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .75rem;
+    }
+    .brand__icon {
+      width: 42px; height: 42px;
+      background: #f59e0b;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #1a3a6b;
+      font-size: 1.1rem;
+    }
+    .brand__text { font-size: 1.4rem; font-weight: 800; letter-spacing: -.01em; }
+    .brand__text strong { color: #f59e0b; }
+    .intro {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .intro p {
+      color: rgba(255,255,255,.5);
+      font-size: .95rem;
+      margin-top: .4rem;
+    }
+    .intro h1 {
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      font-weight: 600;
+      color: rgba(255,255,255,.85);
+      margin-top: .5rem;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 960px;
+    }
+    .card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+    .card__preview {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      gap: .75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .card__preview::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.15);
+    }
+    /* Layout 1 — Corporativo */
+    .preview--1 { background: linear-gradient(135deg, #1a3a6b, #1e4d8c); }
+    .preview--1 .dot { background: #f59e0b; }
+    /* Layout 2 — Dark Tech */
+    .preview--2 { background: linear-gradient(135deg, #0d0d0d, #111827); }
+    .preview--2 .dot { background: #00e676; }
+    /* Layout 3 — Clean Premium */
+    .preview--3 { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+    .preview--3 .dot { background: #f97316; }
+    .preview--3 i { color: #f97316; }
+    .dots {
+      display: flex;
+      gap: .4rem;
+      position: absolute;
+      bottom: .75rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; opacity: .7; }
+    .card__body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .card__tag {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+    .tag--1 { color: #f59e0b; }
+    .tag--2 { color: #00e676; }
+    .tag--3 { color: #f97316; }
+    .card__body h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+    .card__body p { font-size: .85rem; color: rgba(255,255,255,.5); flex: 1; line-height: 1.6; }
+    .preview--3 ~ .card__body p,
+    .card--3 .card__body p { color: rgba(255,255,255,.5); }
+    .card__footer { padding: 0 1.5rem 1.5rem; }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      width: 100%;
+      padding: .75rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: .9rem;
+      text-decoration: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn--1 { background: #f59e0b; color: #1a3a6b; }
+    .btn--2 { background: #00e676; color: #0d0d0d; }
+    .btn--3 { background: #f97316; color: #fff; }
+    .footer-note {
+      margin-top: 2.5rem;
+      font-size: .78rem;
+      color: rgba(255,255,255,.25);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="intro">
+    <div class="brand">
+      <div class="brand__icon"><i class="fa-solid fa-bolt"></i></div>
+      <div class="brand__text">TERA<strong>INSTALL</strong></div>
+    </div>
+    <p>Selecione uma opção de layout para visualizar</p>
+    <h1>Escolha o modelo que mais combina com a sua visão</h1>
+  </div>
+
+  <div class="cards">
+
+    <!-- LAYOUT 1 -->
+    <div class="card">
+      <div class="card__preview preview--1">
+        <i class="fa-solid fa-network-wired" style="color:#f59e0b;position:relative;z-index:1"></i>
+        <i class="fa-solid fa-bolt" style="color:#fff;position:relative;z-index:1"></i>
+        <i class="fa-solid fa-solar-panel" style="color:#f59e0b;position:relative;z-index:1"></i>
+        <div class="dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="card__body">
+        <span class="card__tag tag--1">Layout 01</span>
+        <h2>Corporativo Clássico</h2>
+        <p>Paleta azul profundo e amarelo. Visual sólido, confiável e técnico. Ideal para transmitir credibilidade corporativa.</p>
+      </div>
+      <div class="card__footer">
+        <a href="tera-1/index.html" class="btn btn--1"><i class="fa-solid fa-eye"></i> Visualizar Layout</a>
+      </div>
+    </div>
+
+    <!-- LAYOUT 2 -->
+    <div class="card">
+      <div class="card__preview preview--2">
+        <i class="fa-solid fa-microchip" style="color:#00e676;position:relative;z-index:1"></i>
+        <i class="fa-solid fa-bolt" style="color:#fff;position:relative;z-index:1"></i>
+        <i class="fa-solid fa-solar-panel" style="color:#00e676;position:relative;z-index:1"></i>
+        <div class="dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="card__body">
+        <span class="card__tag tag--2">Layout 02</span>
+        <h2>Dark Tech</h2>
+        <p>Fundo escuro com detalhes verde neon. Visual moderno e tecnológico. Transmite inovação e expertise técnica.</p>
+      </div>
+      <div class="card__footer">
+        <a href="tera-2/index.html" class="btn btn--2"><i class="fa-solid fa-eye"></i> Visualizar Layout</a>
+      </div>
+    </div>
+
+    <!-- LAYOUT 3 -->
+    <div class="card">
+      <div class="card__preview preview--3">
+        <i class="fa-solid fa-sun" style="color:#f97316;position:relative;z-index:1"></i>
+        <i class="fa-solid fa-bolt" style="color:#f97316;position:relative;z-index:1"></i>
+        <i class="fa-solid fa-network-wired" style="color:#f97316;position:relative;z-index:1"></i>
+        <div class="dots">
+          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+      </div>
+      <div class="card__body">
+        <span class="card__tag tag--3">Layout 03</span>
+        <h2>Clean Premium</h2>
+        <p>Fundo claro, laranja vibrante e tipografia elegante. Visual sofisticado focado em resultado e economia de energia.</p>
+      </div>
+      <div class="card__footer">
+        <a href="tera-3/index.html" class="btn btn--3"><i class="fa-solid fa-eye"></i> Visualizar Layout</a>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="footer-note">TERA INSTALL LTDA — CNPJ 52.836.387/0001-14 — Uso interno</p>
+
+</body>
+</html>
