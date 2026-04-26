@@ -301,15 +301,14 @@ address { font-style: normal; }
 
 /* CARROSSEL */
 .carousel { position: relative; display: flex; align-items: center; gap: .75rem; }
-.carousel__track-wrap { overflow: hidden; border-radius: var(--radius); flex: 1; }
+.carousel__track-wrap { overflow: hidden; border-radius: var(--radius); flex: 1; width: 0; }
 .carousel__track { display: flex; transition: transform .45s ease; will-change: transform; }
-.carousel__slide { min-width: calc(100% / 3); padding: 0 .4rem; flex-shrink: 0; }
-.carousel__slide img { width: 100%; height: 240px; object-fit: cover; border-radius: var(--radius); display: block; border: 1px solid var(--gray-700); transition: transform var(--transition); }
-.carousel__slide img:hover { transform: scale(1.02); }
+.carousel__slide { flex: 0 0 100%; width: 100%; padding: 0 .4rem; box-sizing: border-box; }
+.carousel__slide img { width: 100%; height: 220px; object-fit: cover; border-radius: var(--radius); display: block; border: 1px solid var(--gray-700); }
 .carousel__btn { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--gray-600); background: var(--bg-card); color: var(--white); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all var(--transition); }
 .carousel__btn:hover { border-color: var(--neon); color: var(--neon); }
 .carousel__dots { display: flex; justify-content: center; gap: .4rem; margin-top: 1.25rem; }
 .carousel__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gray-600); border: none; cursor: pointer; transition: background var(--transition), transform var(--transition); padding: 0; }
 .carousel__dot.active { background: var(--neon); transform: scale(1.3); }
-@media (max-width: 767px) { .carousel__slide { min-width: 100%; } .carousel__slide img { height: 220px; } }
-@media (min-width: 768px) and (max-width: 1023px) { .carousel__slide { min-width: 50%; } }
+@media (min-width: 768px) { .carousel__slide { flex: 0 0 50%; width: 50%; } .carousel__slide img { height: 240px; } }
+@media (min-width: 1024px) { .carousel__slide { flex: 0 0 33.333%; width: 33.333%; } }
